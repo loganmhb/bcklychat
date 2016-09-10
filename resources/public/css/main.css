@@ -1,0 +1,26 @@
+.username {
+    margin-right: 10px;
+    font-weight: 600;
+    color: blue;
+}
+
+.message-list {
+    list-style-type:none;
+}
+
+body {
+    background-color: darkgray;
+}
+
+.app {
+    background-color: white;
+    padding: 3rem;
+    margin: 3rem;
+    border-radius: 25px;
+}
+
+p {
+    margin-top: 0px;
+    font-weight: 200;
+    color: gray;
+}

@@ -17,7 +17,7 @@
 
 (defonce app-state
   (r/atom {:messages []
-           :current-user "logan"}))
+           :current-user nil}))
 
 (defn add-message! [message]
   (swap! app-state #(update % :messages conj message)))
@@ -60,8 +60,11 @@
 
 (defn message-list []
   [:div
+   [:p (str "Logged in as " (:current-user @app-state))]
+   [:button {:on-click #(swap! app-state assoc :current-user nil)}
+    "Log out"]
    [:h1 "Messages"]
-   [:ul
+   [:ul.message-list
     (for [m (:messages @app-state)]
       ^{:key m} [message m])
     [new-message]]])
@@ -74,9 +77,9 @@
 
 (defn chat []
   [:div.app
-   [:p (str "Logged in as " (:current-user @app-state))]
-   [choose-username]
-   [message-list]])
+   (if (:current-user @app-state)
+     [message-list]
+     [choose-username])])
 
 (defn start []
   (listen-for-events!)
