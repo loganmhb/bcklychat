@@ -1,6 +1,7 @@
 (defproject chatapp "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Sample websocket chat app using sente + httpkit"
+  :url "http://github.com/loganmhb/chatapp"
+  :author "Logan Buckley"
   :aliases {"fig" ["run" "-m" "clojure.main" "script/figwheel.clj"]}
   :main chatapp.server
   :min-lein-version "2.0.0"

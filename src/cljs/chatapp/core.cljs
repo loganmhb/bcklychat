@@ -25,14 +25,10 @@
 (defn add-message-from-user! [text]
   (chsk-send! [:message/send {:text text :author (:current-user @app-state)}]))
 
-(defn recv-event [[event-type event-data]]
-  (case event-type
-    :message/send (add-message! event-data)
-    nil))
-
 (defn handle-event [[event-type event-data]]
   (case event-type
-    :chsk/recv (recv-event event-data)
+    :chsk/recv (handle-event event-data)
+    :message/send (add-message! event-data)
     nil))
 
 (defn listen-for-events! []
@@ -42,20 +38,25 @@
 
 (defn message [m]
   [:li
-   [:span {:class "username"} (:author m)]
-   [:p {:class "message"} (:text m)]])
+   [:span.username (:author m)]
+   [:p.message (:text m)]])
 
-(defn new-message []
+(defn text-input [input-name on-submit]
   (let [val (r/atom "")]
     (fn []
       [:div
        [:input {:type "text"
+                :name input-name
                 :value @val
-                :on-change #(reset! val (-> % .-target .-value))}]
-       [:button {:on-click (fn [event]
-                             (do (add-message-from-user! @val)
-                                 (reset! val "")))}
-        "send"]])))
+                :default-value "Type message here"
+                :on-change #(reset! val (-> % .-target .-value))
+                :on-key-down #(case (.-which %)
+                                13 (do (on-submit @val)
+                                       (reset! val ""))
+                                nil)}]])))
+
+(defn new-message []
+  (text-input "new-message" (fn [text] (add-message-from-user! text))))
 
 (defn message-list []
   [:div
@@ -65,10 +66,22 @@
       ^{:key m} [message m])
     [new-message]]])
 
+(defn choose-username []
+  [:div
+   [:p "Choose a username:"]
+   [(text-input "new-username" (fn [text]
+                                 (swap! app-state assoc :current-user text)))]])
+
+(defn chat []
+  [:div.app
+   [:p (str "Logged in as " (:current-user @app-state))]
+   [choose-username]
+   [message-list]])
+
 (defn start []
   (listen-for-events!)
   (r/render-component
-   [message-list]
+   [chat]
    (.getElementById js/document "app")))
 
 (start)
