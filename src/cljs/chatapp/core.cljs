@@ -68,7 +68,7 @@
     (for [m (:messages @app-state)]
       ^{:key m} [message m])
     [new-message]]])
-
+;;TODO: play sound when message comes in
 (defn choose-username []
   [:div
    [:p "Choose a username:"]
