@@ -1,19 +1,13 @@
 # chatapp
 
-FIXME
-
-## Prerequisites
-
-You will need [Leiningen][] 2.0.0 or above installed.
-
-[leiningen]: https://github.com/technomancy/leiningen
+A simple websocket-based chat app.
 
 ## Running
 
 To start a web server for the application, run:
 
-    lein ring server
+    lein run
 
-## License
+To use with friends:
 
-Copyright © 2016 FIXME
+    ngrok http 3000

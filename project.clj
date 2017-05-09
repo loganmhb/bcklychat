@@ -17,7 +17,7 @@
   :source-paths ["src/clj"]
   :plugins [[lein-cljsbuild "1.1.4"]]
   :cljsbuild {:builds [{:source-paths ["src/cljs"]
-                        :30mpiler {:main 'chatapp.core
+                        :compiler {:main 'chatapp.core
                                    :asset-path "js"
                                    :output-to "resources/public/js/main.js"
                                    :output-dir "resources/public/js"
